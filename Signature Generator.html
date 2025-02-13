@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Assinatura</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts - Barlow -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Barlow', sans-serif;
+      background-color: #f8f9fa;
+    }
+    h4 {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    #signature-preview {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    textarea {
+      font-family: 'Barlow', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4" style="max-width: 90%;">
+    <div class="row">
+      <!-- Coluna 1: Formulário -->
+      <div class="col-md-4">
+        <h4>Formulário</h4>
+        <form id="signature-form">
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" placeholder="Digite o nome" value="Rodrigo Candido">
+          </div>
+          <div class="mb-3">
+            <label for="cargo" class="form-label">Cargo</label>
+            <input type="text" class="form-control" id="cargo" placeholder="Digite o cargo" value="Tech &amp; Innovations">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Digite o email" value="rodrigo.candidido@absolut-sport.com.br">
+          </div>
+          <div class="mb-3">
+            <label for="escritorio" class="form-label">Escritório</label>
+            <input type="text" class="form-control" id="escritorio" placeholder="Digite o escritório" value="Brazil Office">
+          </div>
+          <div class="mb-3">
+            <label for="localizacao" class="form-label">Localização</label>
+            <input type="text" class="form-control" id="localizacao" placeholder="Digite a localização" value="Rio de Janeiro">
+          </div>
+        </form>
+      </div>
+
+      <!-- Coluna 2: Pré-visualização da Assinatura -->
+      <div class="col-md-4">
+        <h4>Assinatura</h4>
+        <div id="signature-preview"></div>
+      </div>
+
+      <!-- Coluna 3: Código HTML -->
+      <div class="col-md-4">
+        <h4>Código HTML</h4>
+        <textarea id="html-code" class="form-control" rows="20"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript para atualizar a assinatura em tempo real -->
+  <script>
+    function generateSignatureHTML(data) {
+      return `
+<table border="0"
+    style="width: 450px; max-width: 450px; text-align: left; font-family: 'Barlow', Arial, Helvetica, sans-serif;">
+  <tr>
+    <th style="padding-right: 15px; margin: 7px; border-bottom: #155f97 1px solid;">
+      <span style="font-size: 13pt; color: #155f97; line-height: 22px;">${data.nome || 'Nome'}</span><br>
+      <span style="font-size: 13px; line-height: 22px;">${data.cargo || 'Cargo'}</span><br>
+      <a href="mailto:${data.email || 'email@example.com'}"
+         style="font-size: 11px; color: #155f97; line-height: 22px;">${data.email || 'email@example.com'}</a><br>
+      <span style="font-size: 11px; line-height: 22px;">
+        ${data.escritorio || 'Escritório'}<br>
+        ${data.localizacao || 'Localização'}
+      </span>
+    </th>
+    <th style="text-align: center; border-bottom: #155f97 1px solid; line-height: 22px;">
+      <a href="https://absolut-sport.com.br">
+        <img src="https://d335luupugsy2.cloudfront.net/cms/files/362619/1739368430/$f5ey4uyozm" alt=""
+             style="height: 70px;">
+      </a>
+    </th>
+  </tr>
+  <tr style="border: #155f97 1px solid;">
+    <td>
+      <a href="https://absolut-sport.com.br" style="font-size: 12px; line-height: 22px;">
+        <strong>absolut-sport.com.br</strong>
+      </a>
+    </td>
+    <td style="text-align: right;">
+      <a href="https://www.linkedin.com/company/absolut-sport">
+        <img src="https://d335luupugsy2.cloudfront.net/cms/files/362619/1739368430/$gp4y7hrv8or" alt="Linkedin ABSOLUT Sport">
+      </a>
+    </td>
+  </tr>
+</table>
+<table style="width: 450px; margin-top: 10px;">
+  <tr>
+    <td>
+      <a href="https://absolut-sport.com.br">
+        <img src="https://d335luupugsy2.cloudfront.net/cms/files/362619/1739368430/$tni0oaclbv" alt="">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span style="color: #858585; font-family: 'Barlow', sans-serif; font-size: 10px;">
+        The content of this email is confidential and intended for the recipient specified in message only.
+        It is strictly forbidden to share any part of this message with any third party, without a written
+        consent of the sender. If you received this message by mistake, please reply to this message and
+        follow with its deletion, so that we can ensure such a mistake does not occur in the future.
+      </span>
+    </td>
+  </tr>
+</table>
+      `;
+    }
+
+    function updateSignature() {
+      const data = {
+        nome: document.getElementById('nome').value,
+        cargo: document.getElementById('cargo').value,
+        email: document.getElementById('email').value,
+        escritorio: document.getElementById('escritorio').value,
+        localizacao: document.getElementById('localizacao').value,
+      };
+
+      const signatureHTML = generateSignatureHTML(data);
+      document.getElementById('signature-preview').innerHTML = signatureHTML;
+      document.getElementById('html-code').value = signatureHTML;
+    }
+
+    // Atualiza a assinatura a cada alteração nos campos do formulário
+    document.querySelectorAll('#signature-form input').forEach(input => {
+      input.addEventListener('input', updateSignature);
+    });
+
+    // Atualiza a assinatura na carga inicial da página
+    updateSignature();
+  </script>
+  
+  <!-- Bootstrap Bundle com Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
